@@ -1,0 +1,52 @@
+﻿@using Task.Models
+
+@model List<Position>
+
+<div>
+    <h1>Position Management</h1>
+    <a asp-controller="Position" asp-action="Add" class="btn btn-primary">Add</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Position position in Model)
+            {
+                <tr>
+                    <th scope="row">@position.Id</th>
+                    <td>@position.Name</td>
+
+                    @if (!position.IsDeleted)
+                    {
+                        <td class="text-success">Active</td>
+                        <td>
+                            <form asp-controller="Product" asp-action="SoftDelete" asp-route-id="@position.Id" method="post">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </td>
+                    }
+                    else
+                    {
+                        <td class="text-danger">Inactive</td>
+                        <td>
+                            <form asp-controller="Product" asp-action="Restore" asp-route-id="@position.Id" method="post">
+                                <button type="submit" class="btn btn-success">Restore</button>
+                            </form>
+                        </td>
+                    }
+
+                    <td>
+                        <a asp-controller="Product" asp-action="Update" asp-route-id="@position.Id" class="btn btn-warning">Update</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+

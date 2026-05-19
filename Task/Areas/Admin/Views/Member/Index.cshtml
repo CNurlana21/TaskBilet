@@ -1,0 +1,58 @@
+﻿@using Task.Models
+@model List<Member>
+
+<div>
+    <h1>Member Management</h1>
+    <a asp-controller="Member" asp-action="Add" class="btn btn-primary">Add</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">FullName</th>
+                <th scope="col">ImageUrl</th>
+              
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ( Member member in Model)
+            {
+                <tr>
+                    <th scope="row">@member.Id</th>7
+
+                     
+                    <td>@member.FullName</td>
+                   
+                    @if (member.IsDeleted == false)
+                    {
+                        <td class="text-success">Active</td>
+                    }
+                    else
+                    {
+                        <td class="text-danger">Inactive</td>
+                    }
+                    <td><img style="width: 100px; height: 100px;" src="~/uploads/sliders/@member.ImageUrl" alt="@member.FullName" /></td>
+                    <td>
+
+                        @if (member.IsDeleted == false)
+                        {
+                            <form asp-controller="Product" asp-action="SoftDelete" asp-route-id="@member.Id">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+
+                        }
+                        else
+                        {
+                            <form asp-controller="Product" asp-action="Restore" asp-route-id="@member.Id">
+                                <button type="submit" class="btn btn-success">Restore</button>
+                            </form>
+                        }
+
+                        
+                    </td>
+                    <td><a asp-controller="Product" asp-action="Update" asp-route-id="@member.Id" class="btn btn-warning">Update</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
